@@ -23,12 +23,16 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.util.concurrent.TimeUnit;
+
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, LocationListener {
 
     final int PERMISSION_LOCATION = 111;
 
-    private GoogleApiClient mGoogleApiClient;
+    TextView locationOutput;
 
+
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .addConnectionCallbacks(this)
                 .addApi(LocationServices.API)
                 .build();
+
+        locationOutput = (TextView)(findViewById(R.id.locationOutput));
+        Button button = (Button)(findViewById(R.id.button));
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
 
     }
 
@@ -67,7 +82,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.v("DONKEY", "Long:" + location.getLongitude() + " - Lat:" + location.getLatitude());
+
+        double latitude = getLatitude(location);
+        double longitude = getLongitude(location);
+        Log.v("DONKEY", "Lat:" + getLatitude(location) + " - Long:" + getLongitude(location));
+
     }
 
     @Override
@@ -104,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Log.v("DONKEY", "starting location services called");
 
         try{
-            LocationRequest req = LocationRequest.create().setPriority(LocationRequest.PRIORITY_LOW_POWER);
+            LocationRequest req = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, req, this);
             Log.v("DONKEY", "Requestion Location Updates");
         } catch (SecurityException exception){
@@ -114,4 +133,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
     }
+
+    public static double getLatitude(Location location){
+        return location.getLatitude();
+    }
+
+    public static double getLongitude(Location location){
+        return location.getLongitude();
+    }
+
 }
