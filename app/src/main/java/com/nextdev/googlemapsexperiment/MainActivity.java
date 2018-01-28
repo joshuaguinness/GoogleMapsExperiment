@@ -40,9 +40,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     ArrayList<Event> events = new ArrayList<>();
 
-    TextView outputDestinations;
+    TextView desiredLocation;
     EditText typeDestination;
-    TextView percentageOutput;
+    TextView currentLocation;
+    TextView destinationsOutput;
 
     double goalLatitude;
     double goalLongitude;
@@ -61,20 +62,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .addApi(LocationServices.API)
                 .build();
 
-        outputDestinations = (TextView) (findViewById(R.id.outputDestinations));
+        desiredLocation = (TextView) (findViewById(R.id.desiredLocation));
         typeDestination = (EditText) (findViewById(R.id.typeDestination));
-        percentageOutput = (TextView) (findViewById(R.id.percentageOutput));
+        currentLocation = (TextView) (findViewById(R.id.currentLocation));
+        destinationsOutput = (TextView) (findViewById(R.id.destinationsOutput));
 
         Button selectDestinationButton = (Button) (findViewById(R.id.selectDestinationButton));
 
         // Creates a new array list of object events
-
         events.add(new Event("Marauder Zone", "Saturday", "9:00 AM to 4:00 PM", "BSB", "43.262259", "-79.919985"));
         events.add(new Event("Faculty Swag Distribution", "Saturday", "10:00 AM to 4:00 PM", "ETB", "43.258226", "-79.920013"));
         events.add(new Event("SOCS Opening Ceremonies", "Saturday", "1:00 PM to 1:30 PM", "MDCL", "43.261335", "-79.916970"));
         events.add(new Event("Residence Dinner: McKay", "Saturday", "5:00 PM to 5:45 PM", "Thode", "43.261070", "-79.922472"));
 
-        outputDestinations.setText("1. BSB, 2. ETB, 3. MDCL, 4. Thode");
+        destinationsOutput.setText("1. BSB" + "\n" + "2. ETB" + "\n" + "3. MDCL" + "\n" + "4. Thode");
 
         selectDestinationButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     goalLongitude = Double.parseDouble(events.get(3).getLongitude());
                 }
 
-                outputDestinations.setText("Lat: " + goalLatitude + ", Long: " + goalLongitude);
+                desiredLocation.setText("Your desired location is: " + goalLatitude + ", " + goalLongitude);
             }
         });
 
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
 
-        percentageOutput.setText("Lat: " + latitude + ", Long: " + longitude);
+        currentLocation.setText("Your current location is: " + latitude + ", " + longitude);
 
         Log.v("WORK", "Lat:" + latitude + " - Long:" + longitude);
 
