@@ -14,14 +14,18 @@
         <TextView
             android:id="@+id/outputDestinations"
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="93dp"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary" />
 
         <EditText
             android:id="@+id/typeDestination"
             android:layout_width="match_parent"
-            android:layout_height="57dp"
+            android:layout_height="66dp"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:hint="Pick a destination"
+            android:inputType="textPersonName"
+            android:textAlignment="center" />
 
         <Button
             android:id="@+id/selectDestinationButton"
@@ -33,16 +37,11 @@
             android:id="@+id/percentageOutput"
             android:layout_width="match_parent"
             android:layout_height="55dp"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent"
             tools:layout_editor_absoluteX="67dp"
             tools:layout_editor_absoluteY="52dp" />
 
-        <Button
-            android:id="@+id/startButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Start!"
-            tools:layout_editor_absoluteX="148dp"
-            tools:layout_editor_absoluteY="262dp" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

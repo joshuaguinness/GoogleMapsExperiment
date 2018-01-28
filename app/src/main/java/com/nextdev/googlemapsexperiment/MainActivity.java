@@ -47,9 +47,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     double goalLatitude;
     double goalLongitude;
 
-    double latitude;
-    double longitude;
-
     private GoogleApiClient mGoogleApiClient;
 
     @Override
@@ -64,23 +61,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .addApi(LocationServices.API)
                 .build();
 
-        outputDestinations = (TextView)(findViewById(R.id.outputDestinations));
+        outputDestinations = (TextView) (findViewById(R.id.outputDestinations));
         typeDestination = (EditText) (findViewById(R.id.typeDestination));
-        percentageOutput = (TextView)(findViewById(R.id.percentageOutput));
+        percentageOutput = (TextView) (findViewById(R.id.percentageOutput));
 
-        Button selectDestinationButton = (Button)(findViewById(R.id.selectDestinationButton));
-        Button startButton = (Button)(findViewById(R.id.startButton));
+        Button selectDestinationButton = (Button) (findViewById(R.id.selectDestinationButton));
 
         // Creates a new array list of object events
 
         events.add(new Event("Marauder Zone", "Saturday", "9:00 AM to 4:00 PM", "BSB", "43.262259", "-79.919985"));
-        events.add(new Event("Faculty Swag Distribution","Saturday","10:00 AM to 4:00 PM","ETB", "43.258226", "-79.920013"));
-        events.add(new Event("SOCS Opening Ceremonies","Saturday","1:00 PM to 1:30 PM","MDCL", "43.261335", "-79.916970"));
-        events.add(new Event("Residence Dinner: McKay","Saturday","5:00 PM to 5:45 PM","Thode", "43.261070", "-79.922472"));
+        events.add(new Event("Faculty Swag Distribution", "Saturday", "10:00 AM to 4:00 PM", "ETB", "43.258226", "-79.920013"));
+        events.add(new Event("SOCS Opening Ceremonies", "Saturday", "1:00 PM to 1:30 PM", "MDCL", "43.261335", "-79.916970"));
+        events.add(new Event("Residence Dinner: McKay", "Saturday", "5:00 PM to 5:45 PM", "Thode", "43.261070", "-79.922472"));
 
-        for (int i = 0; i < events.size(); i++){
-            outputDestinations.setText(events.get(i).getName());
-        }
+        outputDestinations.setText("1. BSB, 2. ETB, 3. MDCL, 4. Thode");
 
         selectDestinationButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,46 +82,32 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                 int destination = Integer.parseInt(typeDestination.getText().toString());
 
-                if (destination == 1){
+                if (destination == 1) {
                     goalLatitude = Double.parseDouble(events.get(0).getLatitude());
                     goalLongitude = Double.parseDouble(events.get(0).getLongitude());
-                }
-                else if (destination == 2){
-
+                } else if (destination == 2) {
                     goalLatitude = Double.parseDouble(events.get(1).getLatitude());
                     goalLongitude = Double.parseDouble(events.get(1).getLongitude());
-                }
-                else if (destination == 3){
+                } else if (destination == 3) {
                     goalLatitude = Double.parseDouble(events.get(2).getLatitude());
                     goalLongitude = Double.parseDouble(events.get(2).getLongitude());
-                }
-                else if (destination == 4){
+                } else if (destination == 4) {
                     goalLatitude = Double.parseDouble(events.get(3).getLatitude());
                     goalLongitude = Double.parseDouble(events.get(3).getLongitude());
                 }
 
+                outputDestinations.setText("Lat: " + goalLatitude + ", Long: " + goalLongitude);
             }
         });
 
-
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Log.v("dest", "3");
-                percentageDistance(goalLatitude, goalLongitude, latitude, longitude);
-
-
-            }
-        });
 
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_LOCATION);
-            Log.v("DONKEY", "Requestions Permissions");
+            Log.v("DONKEY", "Requesting Permissions");
         } else {
             Log.v("Donkey", "starting location services from onConnected");
             startLocationServices();
@@ -147,20 +127,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @Override
     public void onLocationChanged(Location location) {
 
-        latitude = getLatitude(location);
-        longitude = getLongitude(location);
-        Log.v("DONKEY", "Lat:" + latitude + " - Long:" + longitude);
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+
+        percentageOutput.setText("Lat: " + latitude + ", Long: " + longitude);
+
+        Log.v("WORK", "Lat:" + latitude + " - Long:" + longitude);
 
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         mGoogleApiClient.connect();
         super.onStart();
     }
 
     @Override
-    protected void onStop(){
+    protected void onStop() {
         mGoogleApiClient.disconnect();
         super.onStop();
 
@@ -170,9 +153,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        switch(requestCode){
+        switch (requestCode) {
             case PERMISSION_LOCATION: {
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startLocationServices();
                     Log.v("DONKEY", "Permission Granted - Starting Services");
                 } else {
@@ -183,32 +166,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
     }
 
-    public void startLocationServices(){
+    public void startLocationServices() {
         Log.v("DONKEY", "starting location services called");
 
-        try{
+        try {
             LocationRequest req = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, req, this);
             Log.v("DONKEY", "Requestion Location Updates");
-        } catch (SecurityException exception){
+        } catch (SecurityException exception) {
             //Should dialog to user
             Log.v("DONKEY", exception.toString());
         }
 
 
     }
-
-    public static double getLatitude(Location location){
-        return location.getLatitude();
-    }
-
-    public static double getLongitude(Location location){
-        return location.getLongitude();
-    }
-
-    public static void percentageDistance(double goalLatitude, double goalLongitude, double latitude, double longitude){
-
-//
-    }
-
 }
+
+
