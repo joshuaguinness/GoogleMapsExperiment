@@ -38,9 +38,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     final int PERMISSION_LOCATION = 111;
 
+    ArrayList<Event> events = new ArrayList<>();
+
     TextView outputDestinations;
     EditText typeDestination;
     TextView percentageOutput;
+
+    double goalLatitude;
+    double goalLongitude;
+
+    double latitude;
+    double longitude;
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -64,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Button startButton = (Button)(findViewById(R.id.startButton));
 
         // Creates a new array list of object events
-        ArrayList<Event> events = new ArrayList<>();
+
         events.add(new Event("Marauder Zone", "Saturday", "9:00 AM to 4:00 PM", "BSB", "43.262259", "-79.919985"));
         events.add(new Event("Faculty Swag Distribution","Saturday","10:00 AM to 4:00 PM","ETB", "43.258226", "-79.920013"));
         events.add(new Event("SOCS Opening Ceremonies","Saturday","1:00 PM to 1:30 PM","MDCL", "43.261335", "-79.916970"));
@@ -74,33 +82,40 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             outputDestinations.setText(events.get(i).getName());
         }
 
-        int destination = Integer.parseInt(typeDestination.getText().toString());
+        selectDestinationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        double goalLatitude;
-        double goalLongitude;
+                int destination = Integer.parseInt(typeDestination.getText().toString());
 
-        if (destination == 1){
-            goalLatitude = Integer.parseInt(events.get(0).getLatitude());
-            goalLongitude = Integer.parseInt(events.get(0).getLongitude());
-        }
-        else if (destination == 2){
-            goalLatitude = Integer.parseInt(events.get(1).getLatitude());
-            goalLongitude = Integer.parseInt(events.get(1).getLongitude());
-        }
-        else if (destination == 3){
-            goalLatitude = Integer.parseInt(events.get(2).getLatitude());
-            goalLongitude = Integer.parseInt(events.get(2).getLongitude());
-        }
-        else if (destination == 4){
-            goalLatitude = Integer.parseInt(events.get(3).getLatitude());
-            goalLongitude = Integer.parseInt(events.get(3).getLongitude());
-        }
+                if (destination == 1){
+                    goalLatitude = Double.parseDouble(events.get(0).getLatitude());
+                    goalLongitude = Double.parseDouble(events.get(0).getLongitude());
+                }
+                else if (destination == 2){
+
+                    goalLatitude = Double.parseDouble(events.get(1).getLatitude());
+                    goalLongitude = Double.parseDouble(events.get(1).getLongitude());
+                }
+                else if (destination == 3){
+                    goalLatitude = Double.parseDouble(events.get(2).getLatitude());
+                    goalLongitude = Double.parseDouble(events.get(2).getLongitude());
+                }
+                else if (destination == 4){
+                    goalLatitude = Double.parseDouble(events.get(3).getLatitude());
+                    goalLongitude = Double.parseDouble(events.get(3).getLongitude());
+                }
+
+            }
+        });
+
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //percentageOutput.setText(Integer.toString(percentageDistance()));
+                Log.v("dest", "3");
+                percentageDistance(goalLatitude, goalLongitude, latitude, longitude);
 
 
             }
@@ -132,8 +147,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @Override
     public void onLocationChanged(Location location) {
 
-        double latitude = getLatitude(location);
-        double longitude = getLongitude(location);
+        latitude = getLatitude(location);
+        longitude = getLongitude(location);
         Log.v("DONKEY", "Lat:" + latitude + " - Long:" + longitude);
 
     }
@@ -191,9 +206,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         return location.getLongitude();
     }
 
-    //public static double percentageDistance(double goalLatitude, double goalLongitude){
+    public static void percentageDistance(double goalLatitude, double goalLongitude, double latitude, double longitude){
 
 
-    //}
+    }
 
 }
