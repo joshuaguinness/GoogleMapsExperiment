@@ -10,13 +10,17 @@ public class Event {
     public String date;
     public String time;
     public String location;
+    public String latitude;
+    public String longitude;
 
     //Variable Initialization
-    public Event(String name, String date, String time, String location){
+    public Event(String name, String date, String time, String location, String latitude, String longitude){
         this.name=name;
         this.date=date;
         this.time=time;
         this.location=location;
+        this.latitude=latitude;
+        this.longitude=longitude;
     }
 
     // Returns the event name
@@ -39,9 +43,19 @@ public class Event {
         return location;
     }
 
+    // Returns the latitude
+    public String getLatitude(){
+        return latitude;
+    }
+
+    // Returns the longitude
+    public String getLongitude(){
+        return longitude;
+    }
+
     // Places all the info in one string so it is easy to output
     public String getInfo() {
-        return name + "\n" + date + "\n" + time + "\n" + location;
+        return name + "\n" + date + "\n" + time + "\n" + location + "\n" + latitude + "\n" + longitude;
     }
 
     public void print() {

@@ -23,6 +23,10 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, LocationListener {
@@ -30,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     final int PERMISSION_LOCATION = 111;
 
     TextView locationOutput;
-
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -56,6 +59,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
         });
 
+        // Creates a new array list of object events
+        ArrayList<Event> events = new ArrayList<>();
+        events.add(new Event("Marauder Zone", "Saturday", "9:00 AM to 4:00 PM", "IAHS", "43.259585", "-79.920174"));
+        events.add(new Event("Faculty Swag Distribution","Saturday","10:00 AM to 4:00 PM","ETB", "43.258226", "-79.920013"));
+        events.add(new Event("SOCS Opening Ceremonies","Saturday","1:00 PM to 1:30 PM","Psychology Building", "43.259754", "-79.919473"));
+        events.add(new Event("Residence Dinner: McKay","Saturday","5:00 PM to 5:45 PM","ITB", "43.258925", "-79.920796"));
 
     }
 

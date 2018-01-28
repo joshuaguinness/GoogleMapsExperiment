@@ -11,14 +11,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Get Location"
-            tools:layout_editor_absoluteX="148dp"
-            tools:layout_editor_absoluteY="262dp" />
-
         <TextView
             android:id="@+id/locationOutput"
             android:layout_width="match_parent"
@@ -26,6 +18,14 @@
             android:hint="@string/place_autocomplete_search_hint"
             tools:layout_editor_absoluteX="67dp"
             tools:layout_editor_absoluteY="52dp" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Get Location"
+            tools:layout_editor_absoluteX="148dp"
+            tools:layout_editor_absoluteY="262dp" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
