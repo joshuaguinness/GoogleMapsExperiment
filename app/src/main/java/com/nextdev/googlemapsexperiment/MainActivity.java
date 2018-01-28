@@ -27,73 +27,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     final int PERMISSION_LOCATION = 111;
 
-    //private FusedLocationProviderClient mFusedLocationClient;
-    TextView locationOutput;
-
     private GoogleApiClient mGoogleApiClient;
 
-
-    /*
-    public void getTheLocation(){
-
-        try {
-
-            mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-
-                            if (location != null){
-                                double latitude = location.getLatitude();
-                                double longitude = location.getLongitude();
-
-                                locationOutput.setText("The Longitude is:" + Double.toString(longitude));
-
-                            }
-
-                        }
-                    });
-
-        } catch (SecurityException e){
-            locationOutput.setText("There is a problem with getting the location");
-        }
-
-    }
-    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        locationOutput = (TextView)findViewById(R.id.locationOutput);
-
-        Button button = (Button)findViewById(R.id.button);
-        /*
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-
-            ActivityCompat.requestPermissions(this, new String[] { android.Manifest.permission.ACCESS_COARSE_LOCATION},
-                    LocationService.MY_PERMISSION_ACCESS_COARSE_LOCATION);
-        }
-        */
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addConnectionCallbacks(this)
                 .addApi(LocationServices.API)
                 .build();
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //getTheLocation();
-
-
-            }
-        });
 
     }
 
@@ -164,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             //Should dialog to user
             Log.v("DONKEY", exception.toString());
         }
-
 
 
     }
