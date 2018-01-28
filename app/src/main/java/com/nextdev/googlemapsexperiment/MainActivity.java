@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     public static void percentageDistance(double goalLatitude, double goalLongitude, double latitude, double longitude){
 
-
+//
     }
 
 }
