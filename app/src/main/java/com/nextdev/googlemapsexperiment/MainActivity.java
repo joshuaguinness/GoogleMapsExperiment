@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -23,17 +24,23 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+import static java.util.logging.Logger.global;
+
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, LocationListener {
 
     final int PERMISSION_LOCATION = 111;
 
-    TextView locationOutput;
+    TextView outputDestinations;
+    EditText typeDestination;
+    TextView percentageOutput;
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -49,22 +56,55 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .addApi(LocationServices.API)
                 .build();
 
-        locationOutput = (TextView)(findViewById(R.id.locationOutput));
-        Button button = (Button)(findViewById(R.id.button));
+        outputDestinations = (TextView)(findViewById(R.id.outputDestinations));
+        typeDestination = (EditText) (findViewById(R.id.typeDestination));
+        percentageOutput = (TextView)(findViewById(R.id.percentageOutput));
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        Button selectDestinationButton = (Button)(findViewById(R.id.selectDestinationButton));
+        Button startButton = (Button)(findViewById(R.id.startButton));
 
         // Creates a new array list of object events
         ArrayList<Event> events = new ArrayList<>();
-        events.add(new Event("Marauder Zone", "Saturday", "9:00 AM to 4:00 PM", "IAHS", "43.259585", "-79.920174"));
+        events.add(new Event("Marauder Zone", "Saturday", "9:00 AM to 4:00 PM", "BSB", "43.262259", "-79.919985"));
         events.add(new Event("Faculty Swag Distribution","Saturday","10:00 AM to 4:00 PM","ETB", "43.258226", "-79.920013"));
-        events.add(new Event("SOCS Opening Ceremonies","Saturday","1:00 PM to 1:30 PM","Psychology Building", "43.259754", "-79.919473"));
-        events.add(new Event("Residence Dinner: McKay","Saturday","5:00 PM to 5:45 PM","ITB", "43.258925", "-79.920796"));
+        events.add(new Event("SOCS Opening Ceremonies","Saturday","1:00 PM to 1:30 PM","MDCL", "43.261335", "-79.916970"));
+        events.add(new Event("Residence Dinner: McKay","Saturday","5:00 PM to 5:45 PM","Thode", "43.261070", "-79.922472"));
+
+        for (int i = 0; i < events.size(); i++){
+            outputDestinations.setText(events.get(i).getName());
+        }
+
+        int destination = Integer.parseInt(typeDestination.getText().toString());
+
+        double goalLatitude;
+        double goalLongitude;
+
+        if (destination == 1){
+            goalLatitude = Integer.parseInt(events.get(0).getLatitude());
+            goalLongitude = Integer.parseInt(events.get(0).getLongitude());
+        }
+        else if (destination == 2){
+            goalLatitude = Integer.parseInt(events.get(1).getLatitude());
+            goalLongitude = Integer.parseInt(events.get(1).getLongitude());
+        }
+        else if (destination == 3){
+            goalLatitude = Integer.parseInt(events.get(2).getLatitude());
+            goalLongitude = Integer.parseInt(events.get(2).getLongitude());
+        }
+        else if (destination == 4){
+            goalLatitude = Integer.parseInt(events.get(3).getLatitude());
+            goalLongitude = Integer.parseInt(events.get(3).getLongitude());
+        }
+
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //percentageOutput.setText(Integer.toString(percentageDistance()));
+
+
+            }
+        });
 
     }
 
@@ -94,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         double latitude = getLatitude(location);
         double longitude = getLongitude(location);
-        Log.v("DONKEY", "Lat:" + getLatitude(location) + " - Long:" + getLongitude(location));
+        Log.v("DONKEY", "Lat:" + latitude + " - Long:" + longitude);
 
     }
 
@@ -150,5 +190,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public static double getLongitude(Location location){
         return location.getLongitude();
     }
+
+    //public static double percentageDistance(double goalLatitude, double goalLongitude){
+
+
+    //}
 
 }

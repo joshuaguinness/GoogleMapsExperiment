@@ -12,18 +12,35 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/locationOutput"
+            android:id="@+id/outputDestinations"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+        <EditText
+            android:id="@+id/typeDestination"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/selectDestinationButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose Destination" />
+
+        <TextView
+            android:id="@+id/percentageOutput"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:hint="@string/place_autocomplete_search_hint"
             tools:layout_editor_absoluteX="67dp"
             tools:layout_editor_absoluteY="52dp" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/startButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Get Location"
+            android:text="Start!"
             tools:layout_editor_absoluteX="148dp"
             tools:layout_editor_absoluteY="262dp" />
     </LinearLayout>
